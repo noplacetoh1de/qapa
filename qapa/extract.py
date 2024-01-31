@@ -39,7 +39,8 @@ class Row:
                          " option enabled. \nExample row: %s" % row)
 
         self.utr3 = [self.cdsEnd, self.txEnd]
-        self.has_intron_in_3utr = self.cdsEnd < self.exonStarts[-1]
+        #self.has_intron_in_3utr = self.cdsEnd < self.exonStarts[-1]
+        self.has_intron_in_3utr = False
 
         if self.strand == "-":
             self.utr3 = [self.txStart, self.cdsStart]
