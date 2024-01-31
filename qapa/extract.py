@@ -40,11 +40,12 @@ class Row:
 
         self.utr3 = [self.cdsEnd, self.txEnd]
         #self.has_intron_in_3utr = self.cdsEnd < self.exonStarts[-1]
-        self.has_intron_in_3utr = False
 
         if self.strand == "-":
             self.utr3 = [self.txStart, self.cdsStart]
-            self.has_intron_in_3utr = self.cdsStart > self.exonEnds[0]
+            #self.has_intron_in_3utr = self.cdsStart > self.exonEnds[0]
+        
+        self.has_intron_in_3utr = False
 
     def extract_last_exon(self, n=1, min_utr_length=0):
         bed = None
