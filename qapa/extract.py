@@ -51,40 +51,34 @@ class Row:
         bed = None
         name = self._join_names()
 
-        if not self.has_intron_in_3utr and \
-                self.get_3utr_length() >= min_utr_length:
-            if self.strand == "+":
-                start = max([self.exonStarts[-n], self.cdsStart])
-                bed = [self.chrom, start, self.txEnd, name,
-                       self.get_3utr_length(), self.strand,
-                       start, self.cdsEnd]
-            else:
-                end = min([self.exonEnds[n - 1], self.cdsEnd])
-                bed = [self.chrom, self.txStart, end, name,
-                       self.get_3utr_length(), self.strand, self.cdsStart,
-                       end]
-            bed.append(self.name2)
-            bed.append(','.join([str(x) for x in self.exonStarts]))
-            bed.append(','.join([str(x) for x in self.exonEnds]))
-        #else:
-            #logger.debug("Skipping %s because it contains an intron in 3' UTR" %
-                    #self.name)
+        if self.strand == "+":
+            start = max([self.exonStarts[-n], self.cdsStart])
+            bed = [self.chrom, start, self.txEnd, name,
+                    self.get_3utr_length(), self.strand,
+                    start, self.cdsEnd]
+        else:
+            end = min([self.exonEnds[n - 1], self.cdsEnd])
+            bed = [self.chrom, self.txStart, end, name,
+                    self.get_3utr_length(), self.strand, self.cdsStart,
+                    end]
+        bed.append(self.name2)
+        bed.append(','.join([str(x) for x in self.exonStarts]))
+        bed.append(','.join([str(x) for x in self.exonEnds]))
+
         return bed
 
     def extract_3utr(self, min_utr_length=0):
         bed = None
         name = self._join_names()
 
-        if not self.has_intron_in_3utr and \
-                self.get_3utr_length() >= min_utr_length:
-            if self.strand == "+":
-                bed = [self.chrom] + self.utr3 + [name,
-                                                  self.get_3utr_length(),
-                                                  self.strand]
-            else:
-                bed = [self.chrom] + self.utr3 + [name,
-                                                  self.get_3utr_length(),
-                                                  self.strand]
+        if self.strand == "+":
+            bed = [self.chrom] + self.utr3 + [name,
+                                                self.get_3utr_length(),
+                                                self.strand]
+        else:
+            bed = [self.chrom] + self.utr3 + [name,
+                                                self.get_3utr_length(),
+                                                self.strand]
         return bed
 
     def get_3utr_length(self):
