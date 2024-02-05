@@ -123,12 +123,14 @@ def extend_5prime(feature_group, numextends=0):
     newgroup = pd.DataFrame(newgroup)\
                  .drop(['exonStarts', 'exonEnds'], axis=1)
 
-    if forward:
-        newgroup = newgroup.groupby('name2')\
-                        .apply(lambda g: g[g['end'] >= g['start'].max()])
-    else:
-        newgroup = newgroup.groupby('name2')\
-                        .apply(lambda g: g[g['start'] <= g['end'].min()])
+    # if forward:
+    #     newgroup = newgroup.groupby('name2')\
+    #                     .apply(lambda g: g[g['end'] >= g['start'].max()])
+    # else:
+    #     newgroup = newgroup.groupby('name2')\
+    #                     .apply(lambda g: g[g['start'] <= g['end'].min()])
+    
+
     return newgroup
 
 
@@ -156,6 +158,7 @@ def main(args, input_filename):
             except Exception as exc:
                 logger.exception("Error extending %s: %s" % (name2, exc))
 
+    df = pd.concat(newdf).sort_values(['seqnames', 'start'])
     # for name2, group in tqdm(df.groupby('name2'), desc="extend"):
     #     newdf.append(extend_5prime(group, args.numextends))
 
